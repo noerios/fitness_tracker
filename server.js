@@ -6,11 +6,15 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+const db = require("./models");
 
+app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
+
+//run mongoose
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { 
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -19,7 +23,8 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
 });
 
 //add routes
-
+require("./routes/api-routes")(app);
+//add htmlRoutes.js
 
 
 app.listen(PORT, () => {
